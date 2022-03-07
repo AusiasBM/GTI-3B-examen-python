@@ -8,6 +8,8 @@ def encontrar_menores(diccionario,letra):
     Returns:
       resultado: ej. ['AUNQUE','ABINAR']
     """
+    # El erro se debe a que estaba limpiando el array en cada entrada de palabra nueva
+    # Sacandolo fuera ya no se reace y se devuelve entero
     resultado=[]
     for clave in diccionario:
         for palabra in diccionario[clave]:
@@ -27,6 +29,8 @@ def add_client(clients_list,nif,name,address,phone,email):
       phone
       email
     """
+    # Se estaba metienedo un valor nif que tenenía la información del cliente
+    # insertando la información del cliente directamente se arregla  
     clients_list[nif] = {'name': name,
               'address': address,
               'phone': phone,
@@ -42,6 +46,10 @@ def repartir_cartas(cartas_iniciales,repeticiones):
     Returns:
       combinaciones: ej. {'repeticion1': ['contable', 'alguacil', 'asesino', 'cardenal', 'obispo']}
     """    
+
+    # El problema de este era en la 3 prueba, cuando intenta insertar 5 cartas en la última última vuelta
+    # quitando la linia de remove ya quedan cartas para hacer la 3 vuelta
+
     combinaciones={}
     for i in range(1,repeticiones+1):
         cartas_aleatorias = cartas_iniciales 
