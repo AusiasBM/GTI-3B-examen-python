@@ -69,7 +69,16 @@ def print_word(word, same_letter_position, same_letter):
         transformed = transformed[:i-1] + word[i]
       else:
         transformed = transformed[:i] + word[i] + transformed[i+1:]
-      print(transformed)
+    
+
+    for i in same_letter:
+      if i == 0:
+        transformed = word[i].lower() + transformed[i+1:]
+      elif i == len(transformed):
+        transformed = transformed[:i-1] + word[i].lower()
+      else:
+        transformed = transformed[:i] + word[i].lower() + transformed[i+1:]
+    
 
     return transformed
 
