@@ -37,19 +37,15 @@ def compare_words(word, secret):
       for letraSecret in secret:
         if letraWord == letraSecret and posicionWord == posicionSecret:
           same_position.append(posicionWord)
-          print("1. Letra word = " + letraWord + " y letra secret = " + letraSecret)
         elif letraWord == letraSecret:
           same_letter.append(posicionWord)
-          print("2. Letra word = " + letraWord + " y letra secret = " + letraSecret)
         posicionSecret += 1
       posicionWord += 1
 
-    print( same_position )
-    print( same_letter )
     return same_position, same_letter
 
 
-def print_word(word, same_position, same_letter):
+def print_word(word, same_letter_position, same_letter):
     """Dada una palabra, una lista same_position y otra lista same_letter, esta función creará un string donde aparezcan en mayúsculas las letras de la palabra que ocupen las posiciones de same_position, en minúsculas las letras de la palabra que ocupen las posiciones de same_letter y un guión (-) en el resto de posiciones
     Args:
       word: Una palabra. Ej. "CAMPO"
@@ -59,6 +55,12 @@ def print_word(word, same_position, same_letter):
       transformed: La palabra aplicando las transformaciones. En el caso anterior: "Cam--"
     """
     posicion = 0
+    transformed = len(word) * "-"
+
+    for i in same_letter_position:
+      transformed[i] = word[i]
+      
+
 
     
 def choose_secret_advanced():
@@ -83,8 +85,9 @@ if __name__ == "__main__":
     print("Palabra a adivinar: "+secret)#Debug: esto es para que sepas la palabra que debes adivinar
     for repeticiones in range(0,6):
         word = input("Introduce una nueva palabra: ")
+        # TODO Cambiar los parametros de entrada de las funciones
         same_position, same_letter = compare_words( "CAMPO", "CREMA" )    #word.upper(), secret )
-        resultado=print_word()
+        resultado=print_word("CAMPO", same_position, same_letter)
         print(resultado)
         if word == secret:
             print("HAS GANADO!!")
