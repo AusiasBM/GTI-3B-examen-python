@@ -1,5 +1,6 @@
 
 import random
+from turtle import position
 
 
 def choose_secret( filename ):
@@ -16,7 +17,7 @@ def choose_secret( filename ):
 
     return palabra
 
-def compare_words():
+def compare_words(word, secret):
     """Dadas dos palabras en mayúsculas (word y secret), esta función calcula las posiciones de las letras de word que aparecen en la misma posición en secret, y las posiciones de las letras de word que aparecen en secret pero en una posición distinta.
     Args:
       word: Una palabra. Ej. "CAMPO"
@@ -25,6 +26,21 @@ def compare_words():
       same_position: Lista de posiciones de word cuyas letras coinciden en la misma posición en secret. En el caso anterior: [0]
       same_letter: Lista de posiciones de word cuyas letras están en secret pero en posiciones distintas. En el caso anterior: [1,2]
     """
+
+    same_position = [] # las letras están en la misma posición que secret
+    same_letter = [] # las letras de word estan en secret pero en diferente posición
+
+    posicionWord = 0
+    posicionSecret = 0
+
+    for letraWord in word:
+      for letraSecret in secret:
+        if letraWord == letraSecret and posicionWord == posicionSecret:
+          same_position.append(posicionWord)
+        elif le
+
+
+
 
 def print_word():
     """Dada una palabra, una lista same_position y otra lista same_letter, esta función creará un string donde aparezcan en mayúsculas las letras de la palabra que ocupen las posiciones de same_position, en minúsculas las letras de la palabra que ocupen las posiciones de same_letter y un guión (-) en el resto de posiciones
@@ -58,7 +74,7 @@ if __name__ == "__main__":
     print("Palabra a adivinar: "+secret)#Debug: esto es para que sepas la palabra que debes adivinar
     for repeticiones in range(0,6):
         word = input("Introduce una nueva palabra: ")
-        same_position, same_letter = compare_words()
+        same_position, same_letter = compare_words( word.upper(), secret )
         resultado=print_word()
         print(resultado)
         if word == secret:
