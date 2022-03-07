@@ -31,15 +31,17 @@ def compare_words(word, secret):
     same_letter = [] # las letras de word estan en secret pero en diferente posición
 
     posicionWord = 0
-    posicionSecret = 0
+    
 
     for letraWord in word:
+      posicionSecret = 0
       for letraSecret in secret:
         if letraWord == letraSecret and posicionWord == posicionSecret:
-          same_position.append(posicionWord)
+          same_position.append(posicionSecret)
         elif letraWord == letraSecret:
-          same_letter.append(posicionWord)
+          same_letter.append(posicionSecret)
         posicionSecret += 1
+        
       posicionWord += 1
 
     return same_position, same_letter
@@ -55,11 +57,21 @@ def print_word(word, same_letter_position, same_letter):
       transformed: La palabra aplicando las transformaciones. En el caso anterior: "Cam--"
     """
     posicion = 0
-    transformed = len(word) * "-"
+    transformed = "-----"
+
+    print("Posicion igual = " + str(same_letter_position))
+    print("Posicion distinta = " + str(same_letter))
 
     for i in same_letter_position:
-      transformed[i] = word[i]
-      
+      if i == 0:
+        transformed = word[i] + transformed[i+1:]
+      elif i == len(transformed):
+        transformed = transformed[:i-1] + word[i]
+      else:
+        transformed = transformed[:i] + word[i] + transformed[i+1:]
+      print(transformed)
+
+    return transformed
 
 
     
@@ -85,9 +97,8 @@ if __name__ == "__main__":
     print("Palabra a adivinar: "+secret)#Debug: esto es para que sepas la palabra que debes adivinar
     for repeticiones in range(0,6):
         word = input("Introduce una nueva palabra: ")
-        # TODO Cambiar los parametros de entrada de las funciones
-        same_position, same_letter = compare_words( "CAMPO", "CREMA" )    #word.upper(), secret )
-        resultado=print_word("CAMPO", same_position, same_letter)
+        same_position, same_letter = compare_words( word.upper(), secret )
+        resultado=print_word(word.upper(), same_position, same_letter)
         print(resultado)
         if word == secret:
             print("HAS GANADO!!")
