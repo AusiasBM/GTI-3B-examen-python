@@ -1,3 +1,7 @@
+
+import random
+
+
 def choose_secret( filename ):
     """Dado un nombre de fichero, esta función devuelve una palabra aleatoria de este fichero transformada a mayúsculas.
     Args:
@@ -5,7 +9,13 @@ def choose_secret( filename ):
     Returns:
       secret: Palabra elegida aleatoriamente del fichero transformada a mayúsculas. Ej. "CREMA"
     """
-    
+    palabra = ""
+    with open(filename, mode="rt", encoding="utf-8") as f:
+      palabras = list(f)
+      palabra = random.choice(palabras).upper()
+
+    return palabra
+
 def compare_words():
     """Dadas dos palabras en mayúsculas (word y secret), esta función calcula las posiciones de las letras de word que aparecen en la misma posición en secret, y las posiciones de las letras de word que aparecen en secret pero en una posición distinta.
     Args:
@@ -44,7 +54,7 @@ def check_valid_word():
     """
 
 if __name__ == "__main__":
-    secret=choose_secret()
+    secret=choose_secret("palabras_reduced.txt")
     print("Palabra a adivinar: "+secret)#Debug: esto es para que sepas la palabra que debes adivinar
     for repeticiones in range(0,6):
         word = input("Introduce una nueva palabra: ")
