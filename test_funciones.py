@@ -1,5 +1,6 @@
-from funciones import *
 import pytest
+from funciones import *
+
 
 #Para ejecutar solo uno de los 3:
 #python -m pytest -k "test_encontrar_menores"
@@ -20,7 +21,8 @@ def test_encontrar_menores():
     assert lista == ['ERGO','FLOR','BABI','ETILO','BUZAR','AUNQUE','ABINAR','BELDAR']
 
 def test_add_client():
-    clients_list = {'45333152F':
+    clients_list = {
+        '45333152F':
                 {'name':'Martina',
                  'address':'Calle Mislata, 32',
                  'phone':'+34636961236',
