@@ -13,6 +13,8 @@ def choose_secret( filename ):
     palabra = ""
     with open(filename, mode="rt", encoding="utf-8") as f:
       palabras = list(f)
+      if len(palabras) == 0:
+        raise ValueError("El fichero no tiene palabras")
       palabra = random.choice(palabras).upper()
 
     return palabra
@@ -26,6 +28,9 @@ def compare_words(word, secret):
       same_position: Lista de posiciones de word cuyas letras coinciden en la misma posición en secret. En el caso anterior: [0]
       same_letter: Lista de posiciones de word cuyas letras están en secret pero en posiciones distintas. En el caso anterior: [1,2]
     """
+    
+    if len(word) != len(secret):
+      raise ValueError("La longitud de las palabras no son iguales")
 
     same_position = [] # las letras están en la misma posición que secret
     same_letter = [] # las letras de word estan en secret pero en diferente posición
@@ -59,10 +64,18 @@ def print_word(word, same_letter_position, same_letter):
     posicion = 0
     transformed = "-----"
 
+    if type(same_letter_position) != list or type(same_letter) != list:
+      raise ValueError("Los valores same tiene que ser listas")
+
+
     print("Posicion igual = " + str(same_letter_position))
     print("Posicion distinta = " + str(same_letter))
 
     for i in same_letter_position:
+      if i < 0:
+        raise ValueError("No se pueden introducir valores negativos")
+      if i > len(word)-1:
+        raise ValueError("No se pueden introducir valores mayores a la longitud de la palabra")
       if i == 0:
         transformed = word[i] + transformed[i+1:]
       elif i == len(transformed):
@@ -71,13 +84,13 @@ def print_word(word, same_letter_position, same_letter):
         transformed = transformed[:i] + word[i] + transformed[i+1:]
     
 
-    for i in same_letter:
-      if i == 0:
-        transformed = word[i].lower() + transformed[i+1:]
-      elif i == len(transformed):
-        transformed = transformed[:i-1] + word[i].lower()
-      else:
-        transformed = transformed[:i] + word[i].lower() + transformed[i+1:]
+    # for i in same_letter:
+    #   if i == 0:
+    #     transformed = word[i].lower() + transformed[i+1:]
+    #   elif i == len(transformed):
+    #     transformed = transformed[:i-1] + word[i].lower()
+    #   else:
+    #     transformed = transformed[:i] + word[i].lower() + transformed[i+1:]
     
 
     return transformed
@@ -102,14 +115,17 @@ def check_valid_word():
     """
 
 if __name__ == "__main__":
-    secret=choose_secret("palabras_reduced.txt")
-    print("Palabra a adivinar: "+secret)#Debug: esto es para que sepas la palabra que debes adivinar
-    for repeticiones in range(0,6):
-        word = input("Introduce una nueva palabra: ")
-        same_position, same_letter = compare_words( word.upper(), secret )
-        resultado=print_word(word.upper(), same_position, same_letter)
-        print(resultado)
-        if word == secret:
-            print("HAS GANADO!!")
-            exit()
-    print("LO SIENTO, NO LA HAS ADIVINIDADO. LA PALABRA ERA "+secret)   
+    try:
+      secret=choose_secret("palabras_reduced.txt")
+      print("Palabra a adivinar: "+secret)#Debug: esto es para que sepas la palabra que debes adivinar
+      for repeticiones in range(0,6):
+          word = input("Introduce una nueva palabra: ")
+          same_position, same_letter = compare_words( word.upper(), secret )
+          resultado=print_word(word.upper(), same_position, same_letter)
+          print(resultado)
+          if word == secret:
+              print("HAS GANADO!!")
+              exit()
+      print("LO SIENTO, NO LA HAS ADIVINIDADO. LA PALABRA ERA "+secret)  
+    except Exception as e:
+      print("ERROR: " + str(e))
